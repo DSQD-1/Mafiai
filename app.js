@@ -5,9 +5,13 @@ function createGame(){
 
 let name = document.getElementById("playerName").value;
 
+
 if(!name){
+
 alert("Введите имя");
+
 return;
+
 }
 
 
@@ -20,18 +24,31 @@ headers:{
 },
 
 body:JSON.stringify({
+
 name:name
+
 })
 
 })
+
 
 .then(res=>res.json())
 
 .then(data=>{
 
+
 alert(
-"Комната создана: " + data.code
+"Комната создана!\nКод: " + data.code
 );
+
+
+})
+
+.catch(err=>{
+
+alert("Ошибка сервера");
+
+console.log(err);
 
 });
 
@@ -44,11 +61,10 @@ function joinGame(){
 
 let code = prompt("Введите код комнаты");
 
+
 if(code){
 
-alert(
-"Подключение к комнате " + code
-);
+alert("Вход в комнату: " + code);
 
 }
 
