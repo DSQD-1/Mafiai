@@ -1,4 +1,4 @@
-const socket = io("https://ТВОЙ_СЕРВЕР.com");
+const socket = io("https://mafiai-2hcj.onrender.com");
 
 
 let roomId = null;
