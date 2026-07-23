@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Mafiai</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
-
 
 <div class="app">
 
@@ -21,19 +17,22 @@
 
 <h2>Добро пожаловать</h2>
 
-<p>
-Онлайн игра в мафию
-</p>
+<p>Онлайн игра в мафию</p>
+
+<input 
+id="playerName"
+placeholder="Введите имя"
+>
 
 </div>
 
 
-<button>
+<button onclick="createGame()">
 🎮 Создать игру
 </button>
 
 
-<button>
+<button onclick="joinGame()">
 🔑 Войти по коду
 </button>
 
@@ -44,5 +43,4 @@
 <script src="app.js"></script>
 
 </body>
-
 </html>
