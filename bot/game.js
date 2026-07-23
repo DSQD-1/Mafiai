@@ -2,23 +2,45 @@ const { createRoles } = require("./roles");
 
 const games = {};
 
-function createGame(hostId, maxPlayers = 10) {
+
+function createGame(hostId, settings = {}) {
+
   const id = Date.now().toString();
 
   games[id] = {
+
     id,
+
     host: hostId,
+
     players: [],
-    maxPlayers,
+
+    settings: {
+
+      mode: settings.mode || "online",
+
+      maxPlayers: settings.maxPlayers || 10,
+
+      playersPerDevice:
+        settings.playersPerDevice || 1
+
+    },
+
     status: "waiting",
+
     roles: []
+
   };
 
+
   return games[id];
+
 }
 
 
-function joinGame(gameId, player) {
+
+function addPlayer(gameId, player) {
+
   const game = games[gameId];
 
   if (!game) {
@@ -27,56 +49,106 @@ function joinGame(gameId, player) {
     };
   }
 
-  if (game.players.length >= game.maxPlayers) {
+
+  if (game.players.length >= game.settings.maxPlayers) {
+
     return {
       error: "Комната заполнена"
     };
+
   }
 
-  game.players.push(player);
+
+  game.players.push({
+
+    id: player.id,
+
+    name: player.name,
+
+    device: player.device || "main",
+
+    alive: true,
+
+    role: null
+
+  });
+
 
   return game;
+
 }
 
 
+
+
 function startGame(gameId) {
+
   const game = games[gameId];
 
   if (!game) return null;
 
+
   if (game.players.length < 5) {
+
     return {
       error: "Минимум 5 игроков"
     };
+
   }
+
 
   game.status = "started";
 
-  game.roles = createRoles(
-    game.players.length
-  );
+
+  const roles =
+    createRoles(
+      game.players.length
+    );
 
 
-  game.players = game.players.map(
-    (player, index) => ({
-      ...player,
-      role: game.roles[index]
-    })
-  );
+  game.players =
+    game.players.map(
+      (player, index)=>({
+
+        ...player,
+
+        role: roles[index]
+
+      })
+    );
 
 
   return game;
+
 }
 
 
-function getGames() {
+
+function getGame(gameId){
+
+  return games[gameId];
+
+}
+
+
+function getGames(){
+
   return Object.values(games);
+
 }
+
 
 
 module.exports = {
+
   createGame,
-  joinGame,
+
+  addPlayer,
+
   startGame,
+
+  getGame,
+
   getGames
+
 };
